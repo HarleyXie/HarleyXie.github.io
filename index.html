@@ -3,45 +3,434 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>谢浩 - 中科院人工智能与大数据应用专家</title>
+    <title>谢浩老师 - AI技术与产品专家</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #1a4f8b;
+            --secondary-color: #3a7bb8;
+            --accent-color: #f8f9fa;
+            --text-color: #333;
+            --light-text: #6c757d;
+        }
+        
         body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
+            font-family: 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: var(--text-color);
             line-height: 1.6;
-            color: #333;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
         }
-        .person-info {
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
             margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
         }
-        .person-info h1 {
-            color: #003366;
-            font-size: 24px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
             margin-bottom: 20px;
         }
-        .person-info p {
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px 8px 0 0 !important;
+            font-weight: 600;
+        }
+        
+        .expertise-item, .course-item {
+            padding: 15px;
+            border-left: 3px solid var(--secondary-color);
+            background-color: var(--accent-color);
             margin-bottom: 15px;
-            text-align: justify;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .client-logo {
+            height: 80px;
+            margin: 15px;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .client-logo:hover {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <div class="person-info">
-        <h1>谢浩 | 中科院AI应用专家<br>Xie Hao | AI Application Expert, Chinese Academy of Sciences</h1>
-        <img src="images/xiehao.jpg" alt="谢浩的照片" style="width:200px; margin-top:16px;"><br>Xie Hao's Photo
-        <p>谢浩，中科院人工智能与大数据应用专家，中科院计算机硕士、北京大学工商管理硕士，法国巴黎文理研究大学PSL博士。<br>
-        Xie Hao is an Artificial Intelligence and Big Data Application Expert at the Chinese Academy of Sciences, holding a Master's degree in Computer Science from the Chinese Academy of Sciences, a Master of Business Administration from Peking University, and a PhD from Paris Sciences & Lettres – PSL University.</p>
-        <p>拥有20年IT行业技术研发与管理经验，历任央企产品研发副主任、大数据及人工智能初创企业副总裁/CEO、中科院研究室副主任等核心职务。<br>
-        With 20 years of experience in IT industry technology research & development and management, he has held key positions including Deputy Director of Product R&D at a state-owned enterprise, Vice President/CEO of big data and artificial intelligence startups, and Deputy Director of Research Laboratory at the Chinese Academy of Sciences.</p>
-        <p>多次担任部委科技项目技术评审专家、行业专家委员会委员，参与或主持多个国家重大信息化项目。<br>
-        He has served multiple times as a technology evaluation expert for science and technology projects under various ministries and commissions, and as a member of industry expert committees. He has participated in or led multiple major national informatization projects.</p>
-        <p>主导团队取得近百项核心自主知识产权，助力多家机构实现数字化转型和业务智能化，完成亿元以上科技成果转化，在人工智能产业化应用领域具有丰富的理论基础和实践经验。<br>
-        Leading teams to obtain nearly 100 core independent intellectual property rights, he has helped multiple institutions achieve digital transformation and business intelligence, completed technology transfer worth over 100 million yuan, and possesses rich theoretical foundation and practical experience in the field of artificial intelligence industrialization and application.</p>
-    </div>
-    <strong>Email: xiehao@csu.ac.cn</strong>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">简介</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">个人简介</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#expertise">专长领域</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#courses">核心课程</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">授课特色</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#clients">成功案例</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">联系我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 头部横幅 -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">谢浩 老师</h1>
+            <p class="lead mb-4">中科院AI技术与产品专家</p>
+            <p>中科院计算机硕士 | 北京大学工商管理硕士 | 法国巴黎文理研究大学PSL博士</p>
+        </div>
+    </section>
+
+    <!-- 个人简介 -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="section-title">个人简介</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">拥有20年IT行业技术、产品及管理经验，历任央企产品研发副主任、大数据及人工智能初创企业副总裁/CEO、中科院研究室副主任等核心职务。</p>
+                            <p class="card-text">作为AI技术与产品专家，致力于AI技术与商业应用的深度结合，帮助企业及机构在数字化转型浪潮中把握先机，实现创新突破。</p>
+                            <p class="card-text">2025年新书《AI大模型必知必会》由机械工业出版社出版，将于11月份上线。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 专长领域 -->
+    <section id="expertise" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">专长领域</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-brain feature-icon"></i>
+                            <h4 class="card-title">AI技术与商业应用</h4>
+                            <p class="card-text">深度聚焦AI技术与商业应用结合，从原理到实践，助力企业把握AI转型机遇</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-robot feature-icon"></i>
+                            <h4 class="card-title">大模型应用开发</h4>
+                            <p class="card-text">精通DeepSeek等大模型应用场景开发，为企业提供定制化AI解决方案</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <h4 class="card-title">业务流程优化</h4>
+                            <p class="card-text">专注AI驱动办公与业务流程优化，提升组织工作效率与创新能力</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心课程 -->
+    <section id="courses" class="py-5">
+        <div class="container">
+            <h2 class="section-title">核心课程</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            <h4 class="mb-0">《AI DeepSeek技术引领行业革新》</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>本课程深入解析DeepSeek等大模型的核心技术原理，探讨如何利用前沿AI技术推动行业变革与创新。</p>
+                            <ul>
+                                <li>大模型技术原理与架构</li>
+                                <li>行业应用场景分析</li>
+                                <li>技术实施路径与策略</li>
+                                <li>案例分析与前沿趋势</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            <h4 class="mb-0">《AI DeepSeek创新与应用实践》</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>本课程聚焦AI技术在实际业务中的应用，通过全面讲解帮助企业及个人掌握AI基础与趋势应用。</p>
+                            <ul>
+                                <li>AI基础与趋势</li>
+                                <li>常用工具及使用</li>
+                                <li>创新应用场景</li>
+                                <li>AI落地及实践</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            <h4 class="mb-0">《AI人机协作，释放智能生产力》</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>本课程深入探讨人工智能与人类智慧如何高效协同工作，最大化提升组织生产力。课程从AI辅助决策、自动化流程优化、人机交互设计等维度，系统讲解如何构建高效的人机协作体系。</p>
+                            <ul>
+                                <li>人机协作理论基础与模型架构</li>
+                                <li>AI提示词到上下文工程</li>
+                                <li>最新前沿技术浅析</li>
+                                <li>实际案例分析与实施路径规划</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            <h4 class="mb-0">《通用智能体引发AI范式跃迁》</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>本课程聚焦通用智能体技术的最新突破与发展趋势，深入解析其如何引发人工智能领域的范式跃迁。课程从技术原理、架构设计到行业应用，全面探讨通用智能体对未来商业生态和社会结构的深远影响。</p>
+                            <ul>
+                                <li>通用智能体核心技术原理与架构</li>
+                                <li>从专用AI到通用AI的范式转变</li>
+                                <li>多模态感知与自主决策能力构建</li>
+                                <li>技术伦理与未来发展趋势展望</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 授课特色 -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">授课特色</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                            </div>
+                            <p class="card-text">授课逻辑缜密，从原理到应用再到实践，逐步深入，层层剖析。无论是技术产品领域的前沿动态，还是商业模式背后的复杂运作逻辑，均能深入浅出地讲解。</p>
+                            <p class="card-text">凭借丰富的实践经验，课程内容与实操紧密结合，确保学员能够真正掌握知识并应用于实际工作中，提升工作效率与创新能力。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成功案例 -->
+    <section id="clients" class="py-5">
+        <div class="container">
+            <h2 class="section-title">成功案例</h2>
+            <p class="text-center mb-5">技术和产品服务客户包括：</p>
+            
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5>能源行业</h5>
+                            <p>中石油、中海油、中石化、国家电网</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5>金融行业</h5>
+                            <p>建设银行、中国银行、工商银行</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5>通信与基建</h5>
+                            <p>中国移动、中国交建、中国电信</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5>政府与咨询</h5>
+                            <p>国家知识产权局、尼尔森、罗兰贝格、国家科技传播中心</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">联系方式</h2>
+            <div class="row">
+                <div class="col-lg-6 mx-auto">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h4 class="card-title mb-4">授课或咨询</h4>
+                            <p class="card-text">联系方式：</p>
+                            <p><i class="fas fa-envelope me-2"></i>邮箱：8509212@qq.com</p>
+                            <p><i class="fas fa-phone me-2"></i>移动电话：15901232901</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="text-center">
+        <div class="container">
+            <p>© 2025 谢浩老师 - AI技术与产品专家.</p>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 返回顶部按钮
+        const backToTopButton = document.querySelector(".back-to-top");
+        
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add("show");
+            } else {
+                backToTopButton.classList.remove("show");
+            }
+        });
+        
+        backToTopButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        
+        // 导航栏活动状态更新
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+        
+        window.addEventListener("scroll", () => {
+            let current = "";
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute("id");
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").substring(1) === current) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
