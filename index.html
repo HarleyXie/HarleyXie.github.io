@@ -6,6 +6,9 @@
     <title>谢浩老师 - AI技术与产品专家</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
         :root {
             --primary-color: #1a4f8b;
@@ -125,6 +128,143 @@
         .back-to-top.show {
             opacity: 1;
         }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        .dropdown-item {
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @media print {
+            .navbar, .back-to-top, #downloadDropdown {
+                display: none !important;
+            }
+
+            .hero-section {
+                padding: 30px 0 !important;
+                page-break-after: avoid;
+                margin-bottom: 20px !important;
+            }
+
+            /* 确保章节标题不会独立在页面底部 */
+            .section-title {
+                page-break-after: avoid;
+                margin-bottom: 20px !important;
+                margin-top: 25px !important;
+            }
+
+            /* 个人简介部分 - 第一页主要内容 */
+            #about {
+                page-break-after: auto;
+                margin-bottom: 30px !important;
+            }
+
+            /* 专长领域 - 第一页底部 */
+            #expertise {
+                page-break-before: avoid;
+                page-break-after: auto;
+                margin-bottom: 25px !important;
+            }
+
+            /* 核心课程 - 强制在新页开始 */
+            #courses {
+                page-break-before: page;
+                margin-top: 0 !important;
+            }
+
+            /* 授课特色 - 与课程在同一页 */
+            #features {
+                page-break-before: avoid;
+                page-break-after: avoid;
+                margin-top: 20px !important;
+                margin-bottom: 20px !important;
+            }
+
+            /* 成功案例 - 可能跨页，但尽量避免 */
+            #clients {
+                page-break-before: avoid;
+                page-break-inside: avoid;
+                margin-top: 20px !important;
+            }
+
+            /* 联系方式 - 页面底部 */
+            #contact {
+                page-break-before: avoid;
+                margin-top: 20px !important;
+            }
+
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+                margin-bottom: 12px !important;
+            }
+
+            /* 课程卡片特殊处理 */
+            #courses .card {
+                page-break-inside: avoid;
+                margin-bottom: 15px !important;
+            }
+
+            /* 客户案例卡片 */
+            #clients .card {
+                page-break-inside: avoid;
+                margin-bottom: 10px !important;
+            }
+
+            .py-5 {
+                padding: 15px 0 !important;
+            }
+
+            .bg-light {
+                background-color: #f8f9fa !important;
+            }
+
+            body {
+                font-size: 11px !important;
+                line-height: 1.4 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .container {
+                max-width: 100% !important;
+                padding: 0 20px !important;
+                margin: 0 auto !important;
+            }
+
+            /* 优化标题间距 */
+            h1, h2, h3, h4, h5 {
+                margin-top: 15px !important;
+                margin-bottom: 10px !important;
+            }
+
+            /* 优化段落间距 */
+            p {
+                margin-bottom: 8px !important;
+                line-height: 1.3 !important;
+            }
+
+            /* 优化列表间距 */
+            ul, li {
+                margin-bottom: 5px !important;
+            }
+
+            /* 移除页脚的额外空间 */
+            footer {
+                padding: 15px 0 10px !important;
+                margin-top: 20px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -155,6 +295,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">联系我们</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="downloadDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-download"></i> 下载简历
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="downloadAsWord()"><i class="fas fa-file-word"></i> Word格式</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="downloadAsPDF()"><i class="fas fa-file-pdf"></i> PDF格式</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -165,7 +314,6 @@
         <div class="container text-center">
             <h1 class="display-4 fw-bold mb-3">谢浩 老师</h1>
             <p class="lead mb-4">中科院AI技术与产品专家</p>
-            <p>中科院计算机硕士 | 北京大学工商管理硕士 | 法国巴黎文理研究大学PSL博士</p>
         </div>
     </section>
 
@@ -177,9 +325,9 @@
                 <div class="col-lg-8 mx-auto">
                     <div class="card">
                         <div class="card-body">
-                            <p class="card-text">拥有20年IT行业技术、产品及管理经验，历任央企产品研发副主任、大数据及人工智能初创企业副总裁/CEO、中科院研究室副主任等核心职务。</p>
+                            <p class="card-text">拥有近20年IT行业技术、产品及管理经验，历任500强企业研发负责人、大数据及人工智能初创企业管理层、中科院研究室副主任等核心职务。</p>
                             <p class="card-text">作为AI技术与产品专家，致力于AI技术与商业应用的深度结合，帮助企业及机构在数字化转型浪潮中把握先机，实现创新突破。</p>
-                            <p class="card-text">2025年新书《AI大模型必知必会》由机械工业出版社出版，将于11月份上线。</p>
+                            <p class="card-text">2025年新书《AI大模型必知必会》由机械工业出版社出版，于11月份上线各大平台。</p>
                         </div>
                     </div>
                 </div>
@@ -231,15 +379,15 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-header text-center">
-                            <h4 class="mb-0">《AI DeepSeek技术引领行业革新》</h4>
+                            <h4 class="mb-0">《人工智能创新运用与发展趋势》</h4>
                         </div>
                         <div class="card-body">
-                            <p>本课程深入解析DeepSeek等大模型的核心技术原理，探讨如何利用前沿AI技术推动行业变革与创新。</p>
+                            <p>本课程基于最新AI发展趋势与创新实践，系统梳理人工智能的技术演进路径，深度解析前沿应用场景，为学员提供全方位的AI发展洞察与战略决策支持。</p>
                             <ul>
-                                <li>大模型技术原理与架构</li>
-                                <li>行业应用场景分析</li>
-                                <li>技术实施路径与策略</li>
-                                <li>案例分析与前沿趋势</li>
+                                <li>构建AI发展全景认知体系</li>
+                                <li>深度洞察技术变革与社会影响</li>
+                                <li>提升AI创新应用与落地能力</li>
+                                <li>构建面向未来的竞争优势</li>
                             </ul>
                         </div>
                     </div>
@@ -247,15 +395,15 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-header text-center">
-                            <h4 class="mb-0">《AI DeepSeek创新与应用实践》</h4>
+                            <h4 class="mb-0">《AI Deepseek创新与应用实践》</h4>
                         </div>
                         <div class="card-body">
-                            <p>本课程聚焦AI技术在实际业务中的应用，通过全面讲解帮助企业及个人掌握AI基础与趋势应用。</p>
+                            <p>本课程深度聚焦DeepSeek等前沿大模型技术，从理论基础到实战应用，帮助学员掌握AI技术在实际业务场景中的创新应用与价值创造。</p>
                             <ul>
-                                <li>AI基础与趋势</li>
-                                <li>常用工具及使用</li>
-                                <li>创新应用场景</li>
-                                <li>AI落地及实践</li>
+                                <li>AI技术基础与发展趋势深度解析</li>
+                                <li>DeepSeek等主流工具的高效使用技巧</li>
+                                <li>典型业务场景的AI创新应用实践</li>
+                                <li>AI技术落地的方法论与实施路径</li>
                             </ul>
                         </div>
                     </div>
@@ -266,12 +414,12 @@
                             <h4 class="mb-0">《AI人机协作，释放智能生产力》</h4>
                         </div>
                         <div class="card-body">
-                            <p>本课程深入探讨人工智能与人类智慧如何高效协同工作，最大化提升组织生产力。课程从AI辅助决策、自动化流程优化、人机交互设计等维度，系统讲解如何构建高效的人机协作体系。</p>
+                            <p>本课程探讨人工智能与人类智慧的协同机制，通过AI辅助决策、流程自动化、智能交互等维度，系统构建高效人机协作体系，最大化释放组织智能生产力。</p>
                             <ul>
-                                <li>人机协作理论基础与模型架构</li>
-                                <li>AI提示词到上下文工程</li>
-                                <li>最新前沿技术浅析</li>
-                                <li>实际案例分析与实施路径规划</li>
+                                <li>人机协作理论框架与实践模型</li>
+                                <li>从AI提示词到上下文工程的进阶技术</li>
+                                <li>前沿AI技术在协作场景中的应用</li>
+                                <li>成功案例剖析与实施路径规划</li>
                             </ul>
                         </div>
                     </div>
@@ -279,15 +427,15 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-header text-center">
-                            <h4 class="mb-0">《通用智能体引发AI范式跃迁》</h4>
+                            <h4 class="mb-0">《AI智能体范式跃迁》</h4>
                         </div>
                         <div class="card-body">
-                            <p>本课程聚焦通用智能体技术的最新突破与发展趋势，深入解析其如何引发人工智能领域的范式跃迁。课程从技术原理、架构设计到行业应用，全面探讨通用智能体对未来商业生态和社会结构的深远影响。</p>
+                            <p>本课程聚焦通用智能体技术突破，深度解析AI从专用工具向通用智能的范式跃迁，探讨智能体技术如何重塑商业生态与社会结构，为组织数字化转型提供前瞻性指导。</p>
                             <ul>
-                                <li>通用智能体核心技术原理与架构</li>
-                                <li>从专用AI到通用AI的范式转变</li>
-                                <li>多模态感知与自主决策能力构建</li>
-                                <li>技术伦理与未来发展趋势展望</li>
+                                <li>通用智能体核心技术与架构设计</li>
+                                <li>AI范式跃迁的底层逻辑与发展路径</li>
+                                <li>多模态智能体的感知与决策机制</li>
+                                <li>技术伦理治理与未来趋势展望</li>
                             </ul>
                         </div>
                     </div>
@@ -323,35 +471,35 @@
             <p class="text-center mb-5">技术和产品服务客户包括：</p>
             
             <div class="row text-center">
-                <div class="col-md-3 col-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5>能源行业</h5>
-                            <p>中石油、中海油、中石化、国家电网</p>
+                            <h5>央企集团</h5>
+                            <p>中石油、中海油、中石化、国家电网<br>中国移动、中国电信、中国交建</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5>金融行业</h5>
-                            <p>建设银行、中国银行、工商银行</p>
+                            <h5>金融机构</h5>
+                            <p>建设银行、中国银行<br>工商银行、北交所</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5>通信与基建</h5>
-                            <p>中国移动、中国交建、中国电信</p>
+                            <h5>政府与高校</h5>
+                            <p>国家知识产权局、国家科技传播中心<br>北京大学、中国石油大学（北京）</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5>政府与咨询</h5>
-                            <p>国家知识产权局、尼尔森、罗兰贝格、国家科技传播中心</p>
+                            <h5>咨询机构</h5>
+                            <p>尼尔森<br>罗兰贝格</p>
                         </div>
                     </div>
                 </div>
@@ -431,6 +579,353 @@
                 }
             });
         });
+
+        // 改进的Word下载功能 - 使用更简单的方法
+        function downloadAsWord() {
+            try {
+                const content = createWordContent();
+                const blob = new Blob([content], { type: 'application/msword;charset=utf-8' });
+
+                // 使用FileSaver.js保存文件
+                if (window.saveAs) {
+                    saveAs(blob, '谢浩老师简历.doc');
+                } else {
+                    // 备用下载方法
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = '谢浩老师简历.doc';
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                }
+            } catch (error) {
+                console.error('Word下载失败:', error);
+                alert('文档生成失败，请尝试PDF下载或联系技术支持');
+            }
+        }
+
+        // 生成Word格式的HTML内容
+        function createWordContent() {
+            return `
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word'>
+<head>
+<meta charset='utf-8'>
+<title>谢浩老师简历</title>
+<style>
+@page { margin: 2cm; }
+body { font-family: '微软雅黑', 'Microsoft YaHei', Arial, sans-serif; font-size: 12pt; line-height: 1.5; }
+h1 { text-align: center; color: #1a4f8b; font-size: 24pt; margin-bottom: 10pt; }
+h2 { color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; }
+h3 { color: #3a7bb8; font-size: 14pt; margin: 15pt 0 5pt 0; }
+h4 { color: #3a7bb8; font-size: 12pt; margin: 10pt 0 5pt 0; }
+p { margin: 8pt 0; text-align: justify; }
+.center { text-align: center; color: #666; font-size: 14pt; margin-bottom: 20pt; }
+.course { margin: 15pt 0; padding: 10pt; border-left: 3pt solid #3a7bb8; background: #f8f9fa; }
+.clients { margin: 10pt 0; }
+ul { margin: 10pt 0; padding-left: 20pt; }
+li { margin: 5pt 0; }
+.contact { margin: 10pt 0; }
+</style>
+</head>
+<body>
+<h1>谢浩老师</h1>
+<p class="center">中科院AI技术与产品专家</p>
+
+<h2>个人简介</h2>
+<p>拥有近20年IT行业技术、产品及管理经验，历任500强企业研发负责人、大数据及人工智能初创企业管理层、中科院研究室副主任等核心职务。</p>
+<p>作为AI技术与产品专家，致力于AI技术与商业应用的深度结合，帮助企业及机构在数字化转型浪潮中把握先机，实现创新突破。</p>
+<p>2025年新书《AI大模型必知必会》由机械工业出版社出版，于11月份上线各大平台。</p>
+
+<h2>专长领域</h2>
+<p><strong>AI技术与商业应用：</strong>深度聚焦AI技术与商业应用结合，从原理到实践，助力企业把握AI转型机遇</p>
+<p><strong>大模型应用开发：</strong>精通DeepSeek等大模型应用场景开发，为企业提供定制化AI解决方案</p>
+<p><strong>业务流程优化：</strong>专注AI驱动办公与业务流程优化，提升组织工作效率与创新能力</p>
+
+<h2>核心课程</h2>
+
+<div class="course">
+<h3>《人工智能创新运用与发展趋势》</h3>
+<p>本课程基于最新AI发展趋势与创新实践，系统梳理人工智能的技术演进路径，深度解析前沿应用场景，为学员提供全方位的AI发展洞察与战略决策支持。</p>
+<ul>
+<li>构建AI发展全景认知体系</li>
+<li>深度洞察技术变革与社会影响</li>
+<li>提升AI创新应用与落地能力</li>
+<li>构建面向未来的竞争优势</li>
+</ul>
+</div>
+
+<div class="course">
+<h3>《AI Deepseek创新与应用实践》</h3>
+<p>本课程深度聚焦DeepSeek等前沿大模型技术，从理论基础到实战应用，帮助学员掌握AI技术在实际业务场景中的创新应用与价值创造。</p>
+<ul>
+<li>AI技术基础与发展趋势深度解析</li>
+<li>DeepSeek等主流工具的高效使用技巧</li>
+<li>典型业务场景的AI创新应用实践</li>
+<li>AI技术落地的方法论与实施路径</li>
+</ul>
+</div>
+
+<div class="course">
+<h3>《AI人机协作，释放智能生产力》</h3>
+<p>本课程探讨人工智能与人类智慧的协同机制，通过AI辅助决策、流程自动化、智能交互等维度，系统构建高效人机协作体系，最大化释放组织智能生产力。</p>
+<ul>
+<li>人机协作理论框架与实践模型</li>
+<li>从AI提示词到上下文工程的进阶技术</li>
+<li>前沿AI技术在协作场景中的应用</li>
+<li>成功案例剖析与实施路径规划</li>
+</ul>
+</div>
+
+<div class="course">
+<h3>《AI智能体范式跃迁》</h3>
+<p>本课程聚焦通用智能体技术突破，深度解析AI从专用工具向通用智能的范式跃迁，探讨智能体技术如何重塑商业生态与社会结构，为组织数字化转型提供前瞻性指导。</p>
+<ul>
+<li>通用智能体核心技术与架构设计</li>
+<li>AI范式跃迁的底层逻辑与发展路径</li>
+<li>多模态智能体的感知与决策机制</li>
+<li>技术伦理治理与未来趋势展望</li>
+</ul>
+</div>
+
+<h2>成功案例</h2>
+<div class="clients">
+<p><strong>央企集团：</strong>中石油、中海油、中石化、国家电网、中国移动、中国电信、中国交建</p>
+<p><strong>金融机构：</strong>建设银行、中国银行、工商银行、北交所</p>
+<p><strong>政府与高校：</strong>国家知识产权局、国家科技传播中心、北京大学</p>
+<p><strong>咨询机构：</strong>尼尔森、罗兰贝格</p>
+</div>
+
+<h2>授课特色</h2>
+<p>授课逻辑缜密，从原理到应用再到实践，逐步深入，层层剖析。无论是技术产品领域的前沿动态，还是商业模式背后的复杂运作逻辑，均能深入浅出地讲解。</p>
+<p>凭借丰富的实践经验，课程内容与实操紧密结合，确保学员能够真正掌握知识并应用于实际工作中，提升工作效率与创新能力。</p>
+
+<h2>联系方式</h2>
+<div class="contact">
+<p><strong>邮箱：</strong>8509212@qq.com</p>
+<p><strong>微信：</strong>weilai2739</p>
+</div>
+
+</body>
+</html>`;
+        }
+
+        // 完全按照Word版本格式生成PDF - 优化分页
+        async function downloadAsPDF() {
+            const { jsPDF } = window.jspdf;
+
+            try {
+                // 创建第一页内容
+                const page1Container = document.createElement('div');
+                page1Container.style.cssText = `
+                    position: absolute;
+                    top: -9999px;
+                    left: -9999px;
+                    width: 794px;
+                    background: white;
+                    font-family: '微软雅黑', 'Microsoft YaHei', Arial, sans-serif;
+                    font-size: 12pt;
+                    line-height: 1.5;
+                    padding: 56px;
+                    color: #333;
+                `;
+
+                // 第一页内容：标题 + 个人简介 + 专长领域 + 前两门课程
+                page1Container.innerHTML = `
+                <div style="font-family: '微软雅黑', 'Microsoft YaHei', Arial, sans-serif; font-size: 12pt; line-height: 1.5; color: #333;">
+                    <h1 style="text-align: center; color: #1a4f8b; font-size: 24pt; margin-bottom: 10pt; font-weight: bold;">谢浩老师</h1>
+                    <p style="text-align: center; color: #666; font-size: 14pt; margin-bottom: 20pt;">中科院AI技术与产品专家</p>
+
+                    <h2 style="color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; font-weight: bold;">个人简介</h2>
+                    <p style="margin: 8pt 0; text-align: justify;">拥有近20年IT行业技术、产品及管理经验，历任500强企业研发负责人、大数据及人工智能初创企业管理层、中科院研究室副主任等核心职务。</p>
+                    <p style="margin: 8pt 0; text-align: justify;">作为AI技术与产品专家，致力于AI技术与商业应用的深度结合，帮助企业及机构在数字化转型浪潮中把握先机，实现创新突破。</p>
+                    <p style="margin: 8pt 0; text-align: justify;">2025年新书《AI大模型必知必会》由机械工业出版社出版，于11月份上线各大平台。</p>
+
+                    <h2 style="color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; font-weight: bold;">专长领域</h2>
+                    <p style="margin: 8pt 0; text-align: justify;"><strong>AI技术与商业应用：</strong>深度聚焦AI技术与商业应用结合，从原理到实践，助力企业把握AI转型机遇</p>
+                    <p style="margin: 8pt 0; text-align: justify;"><strong>大模型应用开发：</strong>精通DeepSeek等大模型应用场景开发，为企业提供定制化AI解决方案</p>
+                    <p style="margin: 8pt 0; text-align: justify;"><strong>业务流程优化：</strong>专注AI驱动办公与业务流程优化，提升组织工作效率与创新能力</p>
+
+                    <h2 style="color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; font-weight: bold;">核心课程</h2>
+
+                    <div style="margin: 15pt 0; padding: 10pt; border-left: 3pt solid #3a7bb8; background: #f8f9fa;">
+                        <h3 style="color: #3a7bb8; font-size: 14pt; margin: 0 0 5pt 0; font-weight: bold;">《人工智能创新运用与发展趋势》</h3>
+                        <p style="margin: 8pt 0; text-align: justify;">本课程基于最新AI发展趋势与创新实践，系统梳理人工智能的技术演进路径，深度解析前沿应用场景，为学员提供全方位的AI发展洞察与战略决策支持。</p>
+                        <ul style="margin: 10pt 0; padding-left: 20pt;">
+                            <li style="margin: 5pt 0;">构建AI发展全景认知体系</li>
+                            <li style="margin: 5pt 0;">深度洞察技术变革与社会影响</li>
+                            <li style="margin: 5pt 0;">提升AI创新应用与落地能力</li>
+                            <li style="margin: 5pt 0;">构建面向未来的竞争优势</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 15pt 0; padding: 10pt; border-left: 3pt solid #3a7bb8; background: #f8f9fa;">
+                        <h3 style="color: #3a7bb8; font-size: 14pt; margin: 0 0 5pt 0; font-weight: bold;">《AI Deepseek创新与应用实践》</h3>
+                        <p style="margin: 8pt 0; text-align: justify;">本课程深度聚焦DeepSeek等前沿大模型技术，从理论基础到实战应用，帮助学员掌握AI技术在实际业务场景中的创新应用与价值创造。</p>
+                        <ul style="margin: 10pt 0; padding-left: 20pt;">
+                            <li style="margin: 5pt 0;">AI技术基础与发展趋势深度解析</li>
+                            <li style="margin: 5pt 0;">DeepSeek等主流工具的高效使用技巧</li>
+                            <li style="margin: 5pt 0;">典型业务场景的AI创新应用实践</li>
+                            <li style="margin: 5pt 0;">AI技术落地的方法论与实施路径</li>
+                        </ul>
+                    </div>
+                </div>
+                `;
+
+                // 创建第二页内容
+                const page2Container = document.createElement('div');
+                page2Container.style.cssText = page1Container.style.cssText;
+
+                // 第二页内容：核心课程继续 + 成功案例 + 授课特色 + 联系方式
+                page2Container.innerHTML = `
+                <div style="font-family: '微软雅黑', 'Microsoft YaHei', Arial, sans-serif; font-size: 12pt; line-height: 1.5; color: #333;">
+                    <div style="margin: 15pt 0; padding: 10pt; border-left: 3pt solid #3a7bb8; background: #f8f9fa;">
+                        <h3 style="color: #3a7bb8; font-size: 14pt; margin: 0 0 5pt 0; font-weight: bold;">《AI人机协作，释放智能生产力》</h3>
+                        <p style="margin: 8pt 0; text-align: justify;">本课程探讨人工智能与人类智慧的协同机制，通过AI辅助决策、流程自动化、智能交互等维度，系统构建高效人机协作体系，最大化释放组织智能生产力。</p>
+                        <ul style="margin: 10pt 0; padding-left: 20pt;">
+                            <li style="margin: 5pt 0;">人机协作理论框架与实践模型</li>
+                            <li style="margin: 5pt 0;">从AI提示词到上下文工程的进阶技术</li>
+                            <li style="margin: 5pt 0;">前沿AI技术在协作场景中的应用</li>
+                            <li style="margin: 5pt 0;">成功案例剖析与实施路径规划</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 15pt 0; padding: 10pt; border-left: 3pt solid #3a7bb8; background: #f8f9fa;">
+                        <h3 style="color: #3a7bb8; font-size: 14pt; margin: 0 0 5pt 0; font-weight: bold;">《AI智能体范式跃迁》</h3>
+                        <p style="margin: 8pt 0; text-align: justify;">本课程聚焦通用智能体技术突破，深度解析AI从专用工具向通用智能的范式跃迁，探讨智能体技术如何重塑商业生态与社会结构，为组织数字化转型提供前瞻性指导。</p>
+                        <ul style="margin: 10pt 0; padding-left: 20pt;">
+                            <li style="margin: 5pt 0;">通用智能体核心技术与架构设计</li>
+                            <li style="margin: 5pt 0;">AI范式跃迁的底层逻辑与发展路径</li>
+                            <li style="margin: 5pt 0;">多模态智能体的感知与决策机制</li>
+                            <li style="margin: 5pt 0;">技术伦理治理与未来趋势展望</li>
+                        </ul>
+                    </div>
+
+                    <h2 style="color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; font-weight: bold;">成功案例</h2>
+                    <div style="margin: 10pt 0;">
+                        <p style="margin: 8pt 0;"><strong>央企集团：</strong>中石油、中海油、中石化、国家电网、中国移动、中国电信、中国交建</p>
+                        <p style="margin: 8pt 0;"><strong>金融机构：</strong>建设银行、中国银行、工商银行、北交所</p>
+                        <p style="margin: 8pt 0;"><strong>政府与高校：</strong>国家知识产权局、国家科技传播中心、北京大学</p>
+                        <p style="margin: 8pt 0;"><strong>咨询机构：</strong>尼尔森、罗兰贝格</p>
+                    </div>
+
+                    <h2 style="color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; font-weight: bold;">授课特色</h2>
+                    <p style="margin: 8pt 0; text-align: justify;">授课逻辑缜密，从原理到应用再到实践，逐步深入，层层剖析。无论是技术产品领域的前沿动态，还是商业模式背后的复杂运作逻辑，均能深入浅出地讲解。</p>
+                    <p style="margin: 8pt 0; text-align: justify;">凭借丰富的实践经验，课程内容与实操紧密结合，确保学员能够真正掌握知识并应用于实际工作中，提升工作效率与创新能力。</p>
+
+                    <h2 style="color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; font-weight: bold;">联系方式</h2>
+                    <div style="margin: 10pt 0;">
+                        <p style="margin: 8pt 0;"><strong>邮箱：</strong>8509212@qq.com</p>
+                        <p style="margin: 8pt 0;"><strong>微信：</strong>weilai2739</p>
+                    </div>
+                </div>
+                `;
+
+                // 将两个容器添加到页面
+                document.body.appendChild(page1Container);
+                document.body.appendChild(page2Container);
+
+                // 等待DOM更新
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // 生成第一页的canvas
+                const canvas1 = await html2canvas(page1Container, {
+                    scale: 2.2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: page1Container.scrollWidth,
+                    height: page1Container.scrollHeight
+                });
+
+                // 生成第二页的canvas
+                const canvas2 = await html2canvas(page2Container, {
+                    scale: 2.2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: page2Container.scrollWidth,
+                    height: page2Container.scrollHeight
+                });
+
+                // 创建PDF
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'pt',
+                    format: 'a4'
+                });
+
+                const pageWidth = 595.28;  // A4宽度pt
+                const pageHeight = 841.89; // A4高度pt
+                const margin = 56.69;      // 2cm = 56.69pt
+                const contentWidth = pageWidth - (2 * margin);
+                const contentHeight = pageHeight - (2 * margin);
+
+                // 添加第一页
+                const imgData1 = canvas1.toDataURL('image/png', 0.95);
+                const imgHeight1 = (canvas1.height * contentWidth) / canvas1.width;
+                pdf.addImage(imgData1, 'PNG', margin, margin, contentWidth, imgHeight1);
+
+                // 添加第二页
+                pdf.addPage();
+                const imgData2 = canvas2.toDataURL('image/png', 0.95);
+                const imgHeight2 = (canvas2.height * contentWidth) / canvas2.width;
+                pdf.addImage(imgData2, 'PNG', margin, margin, contentWidth, imgHeight2);
+
+                // 下载PDF
+                pdf.save('谢浩老师简历.pdf');
+
+                // 清理临时容器
+                document.body.removeChild(page1Container);
+                document.body.removeChild(page2Container);
+
+            } catch (error) {
+                console.error('PDF生成失败:', error);
+
+                // 备用方案：使用浏览器打印
+                if (confirm('PDF生成失败。\n\n是否使用浏览器打印功能？\n（在打印对话框中选择"另存为PDF"）')) {
+                    const printStyles = document.createElement('style');
+                    printStyles.textContent = `
+                        @media print {
+                            * { margin: 0; padding: 0; }
+                            .navbar, .back-to-top, #downloadDropdown, footer, .row, .container { display: none !important; }
+
+                            body {
+                                font-family: '微软雅黑', 'Microsoft YaHei', Arial, sans-serif !important;
+                                font-size: 12pt !important;
+                                line-height: 1.5 !important;
+                                margin: 2cm !important;
+                                color: #333 !important;
+                                background: white !important;
+                            }
+
+                            .section-title {
+                                color: #1a4f8b !important;
+                                border-bottom: 2pt solid #1a4f8b !important;
+                                page-break-after: avoid !important;
+                            }
+
+                            #courses .card:nth-child(3) {
+                                page-break-before: always !important;
+                            }
+                        }
+                    `;
+                    document.head.appendChild(printStyles);
+
+                    setTimeout(() => {
+                        window.print();
+                        setTimeout(() => {
+                            if (printStyles.parentNode) {
+                                printStyles.parentNode.removeChild(printStyles);
+                            }
+                        }, 1000);
+                    }, 100);
+                }
+            }
+        }
     </script>
 </body>
 </html>
