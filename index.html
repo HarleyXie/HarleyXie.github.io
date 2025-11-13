@@ -606,7 +606,7 @@
             }
         }
 
-        // 生成Word格式的HTML内容
+        // 生成Word格式的HTML内容 - 优化分页
         function createWordContent() {
             return `
 <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word'>
@@ -616,17 +616,20 @@
 <style>
 @page { margin: 2cm; }
 body { font-family: '微软雅黑', 'Microsoft YaHei', Arial, sans-serif; font-size: 12pt; line-height: 1.5; }
-h1 { text-align: center; color: #1a4f8b; font-size: 24pt; margin-bottom: 10pt; }
-h2 { color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; }
-h3 { color: #3a7bb8; font-size: 14pt; margin: 15pt 0 5pt 0; }
+h1 { text-align: center; color: #1a4f8b; font-size: 24pt; margin-bottom: 10pt; font-weight: bold; }
+h2 { color: #1a4f8b; font-size: 16pt; border-bottom: 2pt solid #1a4f8b; padding-bottom: 3pt; margin: 20pt 0 10pt 0; font-weight: bold; page-break-after: avoid; }
+h3 { color: #3a7bb8; font-size: 14pt; margin: 15pt 0 5pt 0; font-weight: bold; }
 h4 { color: #3a7bb8; font-size: 12pt; margin: 10pt 0 5pt 0; }
 p { margin: 8pt 0; text-align: justify; }
 .center { text-align: center; color: #666; font-size: 14pt; margin-bottom: 20pt; }
-.course { margin: 15pt 0; padding: 10pt; border-left: 3pt solid #3a7bb8; background: #f8f9fa; }
+.course { margin: 15pt 0; padding: 10pt; border-left: 3pt solid #3a7bb8; background: #f8f9fa; page-break-inside: avoid; }
+.course-page2 { page-break-before: page; margin: 15pt 0; padding: 10pt; border-left: 3pt solid #3a7bb8; background: #f8f9fa; page-break-inside: avoid; }
 .clients { margin: 10pt 0; }
+.success-cases { page-break-before: avoid; margin-top: 20pt; }
+.teaching-style { page-break-before: avoid; margin-top: 20pt; }
+.contact { margin: 10pt 0; page-break-before: avoid; }
 ul { margin: 10pt 0; padding-left: 20pt; }
 li { margin: 5pt 0; }
-.contact { margin: 10pt 0; }
 </style>
 </head>
 <body>
@@ -634,9 +637,9 @@ li { margin: 5pt 0; }
 <p class="center">中科院AI技术与产品专家</p>
 
 <h2>个人简介</h2>
-<p>拥有近20年IT行业技术、产品及管理经验，历任500强企业研发负责人、大数据及人工智能初创企业管理层、中科院研究室副主任等核心职务。</p>
+<p>拥有近20年IT行业技术、产品及管理经验，历任500强企业产品研发负责人、大数据及人工智能初创企业管理层、中科院研究室副主任等核心职务。</p>
 <p>作为AI技术与产品专家，致力于AI技术与商业应用的深度结合，帮助企业及机构在数字化转型浪潮中把握先机，实现创新突破。</p>
-<p>2025年新书《AI大模型必知必会》由机械工业出版社出版，于11月份上线各大平台。</p>
+<p>2025年新书《AI大模型必知必会》由机械工业出版社出版，于11月底上线各大平台。</p>
 
 <h2>专长领域</h2>
 <p><strong>AI技术与商业应用：</strong>深度聚焦AI技术与商业应用结合，从原理到实践，助力企业把握AI转型机遇</p>
@@ -667,7 +670,7 @@ li { margin: 5pt 0; }
 </ul>
 </div>
 
-<div class="course">
+<div class="course-page2">
 <h3>《AI人机协作，释放智能生产力》</h3>
 <p>本课程探讨人工智能与人类智慧的协同机制，通过AI辅助决策、流程自动化、智能交互等维度，系统构建高效人机协作体系，最大化释放组织智能生产力。</p>
 <ul>
@@ -689,6 +692,7 @@ li { margin: 5pt 0; }
 </ul>
 </div>
 
+<div class="success-cases">
 <h2>成功案例</h2>
 <div class="clients">
 <p><strong>央企集团：</strong>中石油、中海油、中石化、国家电网、中国移动、中国电信、中国交建</p>
@@ -696,10 +700,13 @@ li { margin: 5pt 0; }
 <p><strong>政府与高校：</strong>国家知识产权局、国家科技传播中心、北京大学、中国石油大学（北京）</p>
 <p><strong>咨询机构：</strong>尼尔森、罗兰贝格</p>
 </div>
+</div>
 
+<div class="teaching-style">
 <h2>授课特色</h2>
 <p>授课逻辑缜密，从原理到应用再到实践，逐步深入，层层剖析。无论是技术产品领域的前沿动态，还是商业模式背后的复杂运作逻辑，均能深入浅出地讲解。</p>
 <p>凭借丰富的实践经验，课程内容与实操紧密结合，确保学员能够真正掌握知识并应用于实际工作中，提升工作效率与创新能力。</p>
+</div>
 
 <h2>联系方式</h2>
 <div class="contact">
