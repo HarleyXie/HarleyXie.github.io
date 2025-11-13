@@ -588,12 +588,12 @@
 
                 // 使用FileSaver.js保存文件
                 if (window.saveAs) {
-                    saveAs(blob, '谢浩老师简历.doc');
+                    saveAs(blob, '谢浩老师介绍.doc');
                 } else {
                     // 备用下载方法
                     const link = document.createElement('a');
                     link.href = URL.createObjectURL(blob);
-                    link.download = '谢浩老师简历.doc';
+                    link.download = '谢浩老师介绍.doc';
                     link.style.display = 'none';
                     document.body.appendChild(link);
                     link.click();
@@ -612,7 +612,7 @@
 <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word'>
 <head>
 <meta charset='utf-8'>
-<title>谢浩老师简历</title>
+<title>谢浩老师介绍</title>
 <style>
 @page { margin: 2cm; }
 body { font-family: '微软雅黑', 'Microsoft YaHei', Arial, sans-serif; font-size: 12pt; line-height: 1.5; }
@@ -876,7 +876,7 @@ li { margin: 5pt 0; }
                 pdf.addImage(imgData2, 'PNG', margin, margin, contentWidth, imgHeight2);
 
                 // 下载PDF
-                pdf.save('谢浩老师简历.pdf');
+                pdf.save('谢浩老师介绍.pdf');
 
                 // 清理临时容器
                 document.body.removeChild(page1Container);
